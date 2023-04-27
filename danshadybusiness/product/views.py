@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from product.models import CustomUser, Car, ServiceTicket, CarReservation
+from product.models import CustomUser, Car, ServiceTicket, CarReservation, Messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import redirect, render
@@ -8,6 +8,7 @@ from django.contrib.auth.models import User
 from django.http import JsonResponse
 from django.contrib.auth.models import Group, Permission, User
 from datetime import datetime, date
+from django.contrib import messages
 
 
 
@@ -386,3 +387,34 @@ def returnCar(request):
         reservation.delete()
         return redirect(reverse('product:currentReservations'))
     return redirect(reverse('product:account'))
+
+
+@login_required(login_url='product:loginTest')
+def chatPage(request):
+    users = CustomUser.objects.filter().exclude(user = request.user)
+    return render(request, 'product/chatPage.html', {'users':users})
+
+
+
+@login_required(login_url='product:loginTest')
+def customChat(request,user_id):
+    chats = []
+    customuser = CustomUser.objects.get(user = request.user)
+    user1 = CustomUser.objects.get(pk = user_id)
+
+    for message in Messages.objects.all():
+        if message.message_from == customuser and message.message_to == user1:
+            chats.append("From " +customuser.user.username+": "+message.text)
+        if message.message_from == user1 and message.message_to == customuser:
+            chats.append("From "+user1.user.username+": "+message.text)
+    print(chats)
+    return render(request, 'product/customChat.html', {'chats':chats, 'user_id':user_id})
+
+
+@login_required(login_url='product:loginTest')
+def createChat(request, user_id):
+    customUser = CustomUser.objects.get(user = request.user)
+    otherUser = CustomUser.objects.get(pk = user_id)
+    newMessage = Messages(text = request.POST['text'], message_from = customUser, message_to = otherUser)
+    newMessage.save()
+    return redirect('product:customChat', user_id = user_id)

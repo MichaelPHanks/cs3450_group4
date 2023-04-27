@@ -64,4 +64,11 @@ class ServiceTicket(models.Model):
 
     def __str__(self):
         return User.objects.get(pk=self.customerId).username + ' '+ str(Car.objects.get(pk = self.carId))
+    
+
+
+class Messages(models.Model):
+    text = models.TextField()
+    message_from = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name = "message_from", null=True)
+    message_to = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name = "message_to",null=True)
 

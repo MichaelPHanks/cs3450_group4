@@ -36,6 +36,10 @@ urlpatterns = [
     path('overdueReservations/lojackCar/',views.lojackCar, name='lojackCar'),
     path('account/currentReservations/',views.currentReservations, name = "currentReservations"),
     path('account/currentReservations/returnCar/',views.returnCar,name = "returnCar"),
+    path('chatPage', views.chatPage, name = 'chatPage'),
+    path('chatPage/<int:user_id>',views.customChat, name = "customChat"),
+    path('chatPage/<int:user_id>/createChat',views.createChat, name = "createChat"),
+
 
 
 
