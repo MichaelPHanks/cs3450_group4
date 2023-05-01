@@ -20,7 +20,7 @@
     <div class="container">
       <div class="row">
         <h1 class="add-car-label col-xs-12 text-center">Add Car</h1>
-        <form class="add-car-form" action="{% url 'product:addCar' %}" method="post">
+        <form class="add-car-form" action="{% url 'product:addCar' %}" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="col-sm-4"></div>
             <div class="car-details-ctn col-xs-12 col-sm-4">
@@ -31,7 +31,10 @@
               <!-- <label class="car-price" for="imageInput"><b>Car Image</b></label>
               <input  type="file" placeholder="Browse..." name="imageInput">        -->
 
-              <input class="car-content car-price" type="number" placeholder="Enter Car Price" name="carPrice" required>     
+              <input class="car-content car-price" type="number" placeholder="Enter Car Price" name="carPrice" required> 
+              
+              <input type="file" id="image" name="image">
+              <label for="image"><b>Upload Car Photo</b></label>
 
               <button class="purchase-button button"type="submit">Purchase Car</button>       
             </div>

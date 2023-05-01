@@ -20,6 +20,9 @@
     {% block content %}
 
     <div class="page">
+        {% if customUser.profilePic %}
+        <img src = "{{customUser.profilePic.url}}" width="250" height="250">
+        {% endif %}
         <h1>
             Your username: {{customUser.user.username}}
         </h1>

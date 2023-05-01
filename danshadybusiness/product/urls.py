@@ -39,6 +39,8 @@ urlpatterns = [
     path('chatPage', views.chatPage, name = 'chatPage'),
     path('chatPage/<int:user_id>',views.customChat, name = "customChat"),
     path('chatPage/<int:user_id>/createChat',views.createChat, name = "createChat"),
+    path('account/editProfile', views.editProfile, name = "editProfile"),
+    path('account/editProfile/uploadProfilePic', views.uploadProfilePic, name = "uploadProfilePic"),
 
 
 

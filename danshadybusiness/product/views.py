@@ -9,6 +9,8 @@ from django.http import JsonResponse
 from django.contrib.auth.models import Group, Permission, User
 from datetime import datetime, date
 from django.contrib import messages
+from django.core.files.base import ContentFile
+
 
 
 
@@ -64,6 +66,7 @@ def account(request):
     for reservation in customUser.carreservation_set.all():
         if reservation.endDate >= now:
             list.append(reservation)
+    print(customUser.profilePic)
     return render(request, 'product/account.html', {'customUser': customUser,'reservations':list})
 
 def loginTest(request):
@@ -107,7 +110,7 @@ def addCar(request):
 
     customUser.addFunds(float(request.POST['carPrice']) * -1)
     customUser.save()
-    car = Car(name = request.POST['carName'], price = float(request.POST['carPrice']))
+    car = Car(name = request.POST['carName'], price = float(request.POST['carPrice']), photo = request.FILES['image'])
     car.save()
     return redirect(reverse('product:addCarPage'))
 
@@ -418,3 +421,15 @@ def createChat(request, user_id):
     newMessage = Messages(text = request.POST['text'], message_from = customUser, message_to = otherUser)
     newMessage.save()
     return redirect('product:customChat', user_id = user_id)
+
+
+
+def uploadProfilePic(request):
+    customUser = CustomUser.objects.get(user = request.user)
+    customUser.profilePic = request.FILES['image']
+    
+    customUser.save()
+    return redirect(reverse('product:account'))
+
+def editProfile(request):
+    return render(request,'product/editProfile.html')

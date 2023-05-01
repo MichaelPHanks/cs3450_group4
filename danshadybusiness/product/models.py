@@ -10,6 +10,7 @@ class CustomUser(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE)
     balance = models.FloatField(default = 0.0)
     hours = models.FloatField(default = 0.0)
+    profilePic = models.ImageField(upload_to="images/")
 
     def addFunds(self,amount):
         self.balance += amount
@@ -36,6 +37,7 @@ def save_user_profile(sender, instance, **kwargs):
 class Car(models.Model):
     name = models.CharField(max_length=20)
     price = models.FloatField()
+    photo = models.ImageField(default = False, upload_to="carImages/")
 
     def __str__(self):
         return self.name

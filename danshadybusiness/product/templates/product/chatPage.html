@@ -13,13 +13,22 @@
         {% include 'product/header.html' %}
         {% block content %}
         <div class="page">
+            <h1>
+                Chat with friends!
+            </h1>
             <div>
-                <h2>Go to chat page: </h2>
+
                     {% for user in users %}
                     <h1>
                         <a class="" href="{% url 'product:customChat' user.id %}"><button >{{user}}</button></a>
                     </h1>
                     {% endfor %}
+
+                    {% if not users %}
+                    <h1>
+                        There are no other users to chat with :/
+                    </h1>
+                    {% endif %}
         
             {% include 'product/footer.html' %}
             {% endblock %}
